@@ -1,0 +1,33 @@
+This repository contains some CMSSW code and configurations relevant to the summer project 
+on timing with PPS @ HL-LHC. 
+
+A) The GEN-SIM, RECO, MINIAOD processing follows the CMSSW_11_2_0_pre9 full simulation setup of:
+
+      https://github.com/cms-pepr/production_tests
+
+   Modified to take a physics signal sample (gammagamma->mu+mu-) from LHE input. 
+   The config files corresponding to the 3 steps of the production are: 
+   
+	- GSD.py  
+   	- RECO.py
+   	- MINIAOD.py
+
+   The equivalent configurations, with all of the imports expanded into a single file, are:
+
+       - GSD_expand.py  
+       - RECO_expand.py
+       - MINIAOD_expand.py  
+
+B) The final ROOT ntuples are made from MiniAOD, based on the 11_2_X_snowmass branch of: 
+
+   https://github.com/recotoolsbenchmarks/RecoNtuplizer/tree/11_2_X_snowmass/TreeMaker/Ntuplzr
+
+   On top of that, a few small modifications have been made to add information about the generator-level protons 
+   from signal and pileup, and the true collision time of the signal vertex. The modified files are: 
+
+   	- myproduceNtuples_cfg.py (main config file to run the analyzer)
+	- Validator_cfi.py        (default parameter values)
+	- Validator.cc  	  (main C++ file to access the data and fill ntuple branches)
+
+   In order to get the generated signal protons correctly saved, the parameter "isSignalMC" should be set appropriately, 
+   depending on whether the input is signal or background.
