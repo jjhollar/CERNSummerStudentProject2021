@@ -666,7 +666,14 @@ Validator::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   if(debug_)   std::cout<<"Here I am : got genpart infor right "<<std::endl;
   
   // JH - PU protons
-  for(size_t ipup = 0; ipup < genPUProtons->size(); ipup++)
+  // The first 2 "PU" protons are actually signal, if present... sigh...
+  int puprotonstartindex = 0;
+  if(isSignalMC_) 
+    puprotonstartindex = 2;
+  else 
+    puprotonstartindex = 0;
+
+  for(size_t ipup = puprotonstartindex; ipup < genPUProtons->size(); ipup++)
     {
       genproton_xi[genproton_size] = 1.0 - (genPUProtons->at(ipup).energy()/7000.0);
       genproton_pz[genproton_size] = genPUProtons->at(ipup).pz();
